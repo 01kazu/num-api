@@ -1,6 +1,5 @@
 from flask import Flask, request, abort
 from flask_cors import CORS
-from werkzeug.exceptions import BadRequest
 import json
 import requests
 from math import sqrt
@@ -81,10 +80,11 @@ def fun_fact(number: int) -> str:
 
 @app.errorhandler(400)
 def not_found_error(error):
-    return  {
+    error = {
         "number": "alphabet",
         "error": True
     }
+    return  json.dumps(error), 400
 
 @app.get("/api/classify-number")
 def main_api() -> None:
@@ -101,6 +101,11 @@ def main_api() -> None:
             }
         return json.dumps(result, sort_keys=False)
     return abort(400)
+
+@app.get("/")
+def home() -> None:
+    pass
+
 
 
 if __name__ == "__main__":
