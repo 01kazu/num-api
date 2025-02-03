@@ -1,4 +1,4 @@
-from flask import Flask, request, abort
+from flask import Flask, request, abort, render_template
 from flask_cors import CORS
 import json
 import requests
@@ -87,7 +87,7 @@ def not_found_error(error):
     return  json.dumps(error), 400
 
 @app.get("/api/classify-number")
-def main_api() -> None:
+def main_api():
     number = request.args.get('number')
     if number.isdigit():
         number = int(number)
@@ -102,10 +102,9 @@ def main_api() -> None:
         return json.dumps(result, sort_keys=False)
     return abort(400)
 
-@app.get("/")
-def home() -> None:
-    pass
-
+@app.route("/")
+def home():
+    return render_template('home.html')
 
 
 if __name__ == "__main__":
