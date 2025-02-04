@@ -75,7 +75,7 @@ def digit_sum(number: int) -> int:
 
 def fun_fact(number: int) -> str:
     # number = str(number
-    response = requests.get(f"http://numbersapi.com/{number}")
+    response = requests.get(f"http://numbersapi.com/{number}/math")
     return response.text
 
 @app.errorhandler(400)
