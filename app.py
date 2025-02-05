@@ -84,26 +84,32 @@ def fun_fact(number: int) -> str:
     response = requests.get(f"http://numbersapi.com/{number}/math")
     return response.text
 
+def result(number:str):
+    number = int(number)
+    result =  {
+            "number": number,
+            "is_prime": is_prime(number),
+            "is_perfect": is_perfect(number),
+            "properties": properties(number),
+            "digit_sum": digit_sum(number),
+            "fun_fact": fun_fact(number)
+            }
+    return jsonify(result)
+
 
 @app.get("/api/classify-number")
 def main_api():
     number = request.args.get('number')
     if number:
-        if number.isdigit(): 
-            if number[0] == "-":
-                number = int(number)
-                result =  {
-                    "number": number,
-                    "is_prime": is_prime(number),
-                    "is_perfect": is_perfect(number),
-                    "properties": properties(number),
-                    "digit_sum": digit_sum(number),
-                    "fun_fact": fun_fact(number)
-                    }
-                return jsonify(result)
+        # if number is positive number
+        if number[0] != "-" and number.isdigit():
+            return result(number)
+        # number[1:] = number without the minus "-" sign
+        if number[0] == "-" and number[1:].isdigit(): 
+            return result(number)
         response = {'number': 'alphabet', 
               'error': True}
-        return make_response(jsonify(response))
+        return make_response(jsonify(response), 400)
     response = {'number': 'number is to be provided', 
               'error': True}
     return make_response(jsonify(response), 400)
