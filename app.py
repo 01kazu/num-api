@@ -1,12 +1,11 @@
 from flask import Flask, jsonify, request, abort, render_template, make_response
 from flask_cors import CORS
-from werkzeug.exceptions import BadRequest
-import json
 import requests
 from math import sqrt
 
 app = Flask(__name__)
 CORS(app)
+app.json.sort_keys = False
 
 '''
 functions to create
