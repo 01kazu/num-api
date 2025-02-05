@@ -89,17 +89,18 @@ def fun_fact(number: int) -> str:
 def main_api():
     number = request.args.get('number')
     if number:
-        if number.isdigit() or number[0] == "-":
-            number = int(number)
-            result =  {
-                "number": number,
-                "is_prime": is_prime(number),
-                "is_perfect": is_perfect(number),
-                "properties": properties(number),
-                "digit_sum": digit_sum(number),
-                "fun_fact": fun_fact(number)
-                }
-            return jsonify(result)
+        if number.isdigit(): 
+            if number[0] == "-":
+                number = int(number)
+                result =  {
+                    "number": number,
+                    "is_prime": is_prime(number),
+                    "is_perfect": is_perfect(number),
+                    "properties": properties(number),
+                    "digit_sum": digit_sum(number),
+                    "fun_fact": fun_fact(number)
+                    }
+                return jsonify(result)
         response = {'number': 'alphabet', 
               'error': True}
         return make_response(jsonify(response))
