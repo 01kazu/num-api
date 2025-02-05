@@ -96,18 +96,21 @@ def not_found_error(error):
 @app.get("/api/classify-number")
 def main_api():
     number = request.args.get('number')
-    if number.isdigit() or number[0] == "-":
-        number = int(number)
-        result =  {
-            "number": number,
-            "is_prime": is_prime(number),
-            "is_perfect": is_perfect(number),
-            "properties": properties(number),
-            "digit_sum": digit_sum(number),
-            "fun_fact": fun_fact(number)
-            }
-        return json.dumps(result, sort_keys=False)
-    return abort(400)
+    if number:
+        if number.isdigit() or number[0] == "-":
+            number = int(number)
+            result =  {
+                "number": number,
+                "is_prime": is_prime(number),
+                "is_perfect": is_perfect(number),
+                "properties": properties(number),
+                "digit_sum": digit_sum(number),
+                "fun_fact": fun_fact(number)
+                }
+            return json.dumps(result, sort_keys=False)
+        return abort(400)
+    return render_template('home.html')
+    
 
 @app.route("/")
 def home():
