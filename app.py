@@ -36,15 +36,20 @@ def is_perfect(number: int) -> bool:
     e.g. the divisors of 6 are (1, 2, 3). Summing the divisors gives 6 which makes
     6 a perfect number
     '''
+    if number <= 1:
+        return False
     divisors = list(filter(lambda x: number % x == 0, range(1, number)))
     return sum(divisors) == number
 
 def armstrong(number: int) -> bool:
+    if number < 0:
+        return False
+    num_digit = len(str(number))
     total = 0
     temp = number
     while temp > 0:
         temp, digit = divmod(temp, 10) 
-        total += digit ** 3
+        total += digit ** num_digit
     return number == total
 
 def even(number: int) -> bool:
@@ -66,6 +71,7 @@ def properties(number: int) -> list:
     return p
 
 def digit_sum(number: int) -> int:
+    number = abs(number)
     total = 0
     temp = number
     while temp > 0:
@@ -86,10 +92,11 @@ def not_found_error(error):
     }
     return  json.dumps(error), 400
 
+
 @app.get("/api/classify-number")
 def main_api():
     number = request.args.get('number')
-    if number.isdigit():
+    if number.isdigit() or number[0] == "-":
         number = int(number)
         result =  {
             "number": number,
