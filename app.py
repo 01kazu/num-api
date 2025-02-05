@@ -1,4 +1,4 @@
-from flask import Flask, request, abort, render_template
+from flask import Flask, jsonify, request, abort, render_template, make_response
 from flask_cors import CORS
 from werkzeug.exceptions import BadRequest
 import json
@@ -100,14 +100,14 @@ def main_api():
                 "digit_sum": digit_sum(number),
                 "fun_fact": fun_fact(number)
                 }
-            return json.dumps(result, sort_keys=False)
-        return abort(400,{
-                    "number": "alphabet",
-                    "error": True
-                })
-    abort(400, {'number': 'Number is to be provided', 
-              'error': True})
-    
+            return jsonify(result)
+        response = {'number': 'alphabet', 
+              'error': True}
+        return make_response(jsonify(response))
+    response = {'number': 'number is to be provided', 
+              'error': True}
+    return make_response(jsonify(response), 400)
+
 
 @app.route("/")
 def home():
